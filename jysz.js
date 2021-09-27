@@ -2,6 +2,7 @@ const $ = new Env('微信_金银手指');
 const notify = $.isNode() ? require('./sendNotify') : '';
 const CryptoJS = require('crypto-js')
 const app_soy_wx_jysz_token = []
+const app_soy_wx_jysz_User_Agent = []
 let subTitle = ``;
 let status;
 status = (status = ($.getval("gk_status") || "1") ) > 1 ? `${status}` : ""; // 账号扩展字符
@@ -10,9 +11,9 @@ let soy_wx_jysz_token = $.getdata('soy_wx_jysz_token')
 !(async () => {
 
 if ($.isNode()) {
-apptz = process.env.apptz;
-apptx = process.env.apptx;
-appyq = process.env.appyq;
+apptz = false;
+apptx = true;
+appyq =false;
     
     if(!process.env.soy_wx_jysz_token&&process.env.soy_wx_jysz_token==''){
         console.log(`\n【${$.name}】：未填写相对应的变量`);
@@ -34,8 +35,23 @@ appyq = process.env.appyq;
             app_soy_wx_jysz_token.push(soy_wx_jysz_token[item]);
         };
     });
-
-    soy_wx_jysz_User_Agent = process.env.soy_wx_jysz_User_Agent
+	
+    if (process.env.soy_wx_jysz_User_Agent && process.env.soy_wx_jysz_User_Agent.indexOf('@') > -1) {
+        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split('@');
+    } else if (process.env.soy_wx_jysz_User_Agent && process.env.soy_wx_jysz_User_Agent.indexOf('\n') > -1) {
+        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split('\n');
+    } else if(process.env.soy_wx_jysz_User_Agent && process.env.soy_wx_jysz_User_Agent.indexOf('#') > -1){
+        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split('#');
+    }else{
+        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split();
+    };
+    
+    Object.keys(soy_wx_jysz_User_Agent).forEach((item) => {
+        if (soy_wx_jysz_User_Agent[item]) {
+            app_soy_wx_jysz_User_Agent.push(soy_wx_jysz_User_Agent[item]);
+        };
+    });
+    
     
     
 }else{
@@ -43,7 +59,7 @@ appyq = process.env.appyq;
     await get_appdata()
   } else{
   app_soy_wx_jysz_token.push($.getdata('soy_wx_jysz_token'))
-  soy_wx_jysz_User_Agent.push($.getdata('soy_wx_jysz_User_Agent'))
+  app_soy_wx_jysz_User_Agent.push($.getdata('soy_wx_jysz_User_Agent'))
   
   }
 apptz = $.getdata('apptz');//是否推送，默认true
@@ -69,6 +85,7 @@ appyq = $.getdata('appyq');//默认邀请,需要自行修改变量
       
 for (i = 0; i < app_soy_wx_jysz_token.length; i++) {
     soy_wx_jysz_token=app_soy_wx_jysz_token[i]
+    soy_wx_jysz_User_Agent=app_soy_wx_jysz_token[i]
     //soy_wx_jysz_headers=soy_wx_jysz_User_Agent
     //JSON.stringify(
     if(!soy_wx_jysz_User_Agent){
