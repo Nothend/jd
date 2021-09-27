@@ -37,13 +37,13 @@ appyq =false;
     });
 	
     if (process.env.soy_wx_jysz_User_Agent && process.env.soy_wx_jysz_User_Agent.indexOf('@') > -1) {
-        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split('@');
+        soy_wx_jysz_User_Agent = process.env.soy_wx_jysz_User_Agent.split('@');
     } else if (process.env.soy_wx_jysz_User_Agent && process.env.soy_wx_jysz_User_Agent.indexOf('\n') > -1) {
-        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split('\n');
+        soy_wx_jysz_User_Agent = process.env.soy_wx_jysz_User_Agent.split('\n');
     } else if(process.env.soy_wx_jysz_User_Agent && process.env.soy_wx_jysz_User_Agent.indexOf('#') > -1){
-        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split('#');
+        soy_wx_jysz_User_Agent = process.env.soy_wx_jysz_User_Agent.split('#');
     }else{
-        soy_wx_jysz_token = process.env.soy_wx_jysz_User_Agent.split();
+        soy_wx_jysz_User_Agent = process.env.soy_wx_jysz_User_Agent.split();
     };
     
     Object.keys(soy_wx_jysz_User_Agent).forEach((item) => {
